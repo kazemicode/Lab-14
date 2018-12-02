@@ -1,5 +1,7 @@
 # Sara Kazemi
 # Lab 14 - CST 205
+
+# Problem 1
 # Create a count of how many total distinct words appear in Green Eggs and Ham
 # Create a count of how often each of the words appears
 # Print out the total distinct count and the count for each of the words.
@@ -58,15 +60,51 @@ def get_most_freq_word(max, dict):
         if dict[word] == max:
             print(f'\t*****MOST FREQUENT WORD*****\nword: {word:10} | count: {dict[word]:10}')
 
+# Problem 2
+# Extract headlines from the news web page https://foothill.edu/news/
+
+source_html = open('source.html', 'r').read()
+
+# Finds each featured headline in Foothill's website by getting
+# the substring that occurs between h3 html tags and appending those
+# substrings to a list.
+def find_news(source):
+    doc=source
+    goal_start="&lt;h3&gt;</span>" # Title of each featured headline is preceded by an h3 HTML tag
+    goal_end="<span class=\"html-tag\">&lt;/h3&gt;</span>" # Title of each featured headline is followed by
+                                                           # a closing h3 tag
+    psn = doc.find(goal_start, 0)  # position starts at first instance of an h3 tag in the document string
+    headlines=[] # initialize list of found headlines
+    while doc.find(goal_start, psn) > -1: # as long as we still find h3 tags in our doc, keep searching
+        psn = doc.find(goal_start, psn)   # psn reassigned to the position of the next h3 tag found
+        start = psn + len(goal_start)     # start of our headline is just after the end of the h3 tag
+        end = doc.find(goal_end, start)   # end of our headline is right before the closing h3 tag
+        headlines.append(doc[start:end])  # append the headline to the list
+        psn = start                       # reassign psn to just after the last h3 tag we found ends
+
+    return headlines
+
+# Prints each headline in the list
+def print_headlines(headline_list):
+    print("LIST OF HEADLINES:\n")
+    for headline in headline_list:
+        print(headline)
+
 
 def main():
+    print("\n\nProblem 1:\n")
     dictionary = get_unique_words(original_text)
     print_dict_alpha(dictionary)
     max = get_most_frequent(dictionary)
     get_most_freq_word(max, dictionary)
     print(f'\t\t*********************\nUnique word count: {unique_word_count(dictionary): 17}')
+    headlines = find_news(source_html)
+    print("\n\n\t\t*********************\n\nProblem 2:\n")
+    print_headlines(headlines)
 
 main()
 
+
+find_news(source_html)
 
 
