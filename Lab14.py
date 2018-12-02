@@ -102,9 +102,7 @@ def main():
     print("\n\n\t\t*********************\n\nProblem 2:\n")
     print_headlines(headlines)
 
+
 main()
-
-
-find_news(source_html)
 
 
